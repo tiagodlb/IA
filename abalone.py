@@ -27,6 +27,29 @@ X = pd.get_dummies(X, drop_first=True)
 # Verificar tipos de dados após conversão
 print(X.dtypes)
 
+# Identificar e remover valores inválidos (NaNs, infinitos)
+# Substituir valores infinitos por NaNs
+X.replace([np.inf, -np.inf], np.nan, inplace=True)
+# Verificar se ainda há NaNs
+print("Número de NaNs em X antes de dropna:", X.isna().sum().sum())
+# Remover NaNs
+X.dropna(inplace=True)
+# Garantir que y tenha o mesmo índice que X
+y = y.loc[X.index]
+
+# Verificar se ainda há NaNs em y
+print("Número de NaNs em y antes de dropna:", y.isna().sum().sum())
+# Remover NaNs de y
+y.dropna(inplace=True)
+
+# Verificar se ainda há valores inválidos
+print("Número de NaNs em X após limpeza:", X.isna().sum().sum())
+print("Número de NaNs em y após limpeza:", y.isna().sum().sum())
+
+# Verificar se há valores infinitos
+print("Número de valores infinitos em X após limpeza:", np.isinf(X).sum().sum())
+print("Número de valores infinitos em y após limpeza:", np.isinf(y).sum().sum())
+
 # Padronizando os dados para que todas as variáveis tenham média 0 e desvio padrão 1
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
