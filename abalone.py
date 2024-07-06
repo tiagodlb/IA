@@ -1,6 +1,8 @@
+from sklearn.linear_model import LinearRegression
 from ucimlrepo import fetch_ucirepo
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeRegressor
@@ -89,3 +91,11 @@ r2_best = r2_score(y_test, y_pred_best)
 
 print(f'Melhor Erro Quadrático Médio: {mse_best:.2f}')
 print(f'Melhor Coeficiente de Determinação R^2: {r2_best:.2f}')
+new_y = y_test.reset_index()
+fig, ax = plt.subplots()
+reg = LinearRegression().fit(new_y, y_pred_best)
+y_pred = reg.predict(new_y)
+print(f'ablublublé: {y_pred}')
+ax.scatter(y_test, y_pred_best,s=10, color="darkslateblue", linewidths=1)
+ax.plot(y_test, y_pred , color="red", lw=1)
+plt.show()
